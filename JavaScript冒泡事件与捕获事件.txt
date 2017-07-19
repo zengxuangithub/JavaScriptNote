@@ -1,0 +1,69 @@
+默认为冒泡事件
+Html 代码
+
+
+<div id="parent">
+　　<div id="child" class="child"></div>
+</div>
+
+
+js代码
+	    document.getElementById("parent").addEventListener("click",function(e)
+	   {
+                alert("parent事件被触发，"+this.id);
+            })
+            document.getElementById("child").addEventListener("click",function(e)
+	   {
+                alert("child事件被触发，"+this.id)
+            })
+
+输出结果:
+child事件被触发，child
+parent事件被触发，parent
+
+
+捕获事件（最后一个参数为true则为捕获事件  默认为false）
+
+js代码
+
+
+	    document.getElementById("parent").addEventListener("click",function(e){
+                alert("parent事件被触发，"+e.target.id);
+            },true)
+            document.getElementById("child").addEventListener("click",function(e){
+                alert("child事件被触发，"+e.target.id)
+            },true)
+
+
+
+应用案例
+
+
+html代码
+
+
+	<ul>
+            <li>item1</li>
+            <li>item2</li>
+            <li>item3</li>
+            <li>item4</li>
+            <li>item5</li>
+            <li>item6</li>
+        </ul>
+
+jquery代码
+  	$("ul").on("mouseover",function(e){
+                $(e.target).css("background-color","#ddd").siblings().css("background-color","white");
+            })
+
+这样做利用了冒泡事件 使子元素依次具有事件属性 优于           遍历  每个li元素 如下
+      $("li").on("mouseover",function(){
+                $(this).css("background-color","#ddd").siblings().css("background-color","white");
+            })
+
+
+
+案例应用2
+$("<li>item7</li>").appendTo("ul");
+ 由于绑定事件的时候item7还不存在，所以为了效果，我们还要给它再绑定一次事件。而利用冒泡方案  由于是给ul绑的事件 所以无需再次添加事件
+
